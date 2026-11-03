@@ -80,37 +80,44 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .vid.empty .play svg{fill:#fff}
 
 /* Hero */
-.hero{min-height:100svh;display:flex;align-items:center;padding:110px 0 70px;position:relative;overflow:clip}
+.hero{padding:130px 0 90px;position:relative;overflow:clip;text-align:center}
 .hero>.wrap{position:relative;z-index:1}
 .hero::before{content:"";position:absolute;width:60vw;height:60vw;max-width:780px;max-height:780px;right:-10vw;top:-10vw;background:radial-gradient(circle,rgba(18,181,165,.16),transparent 65%);pointer-events:none}
 .hero::after{content:"";position:absolute;width:50vw;height:50vw;max-width:640px;max-height:640px;left:-14vw;bottom:-18vw;background:radial-gradient(circle,rgba(58,155,230,.10),transparent 65%);pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,6vw,90px);align-items:center}
-.hero h1{font-size:clamp(48px,6.4vw,94px);margin:22px 0 26px}
-.hero p.lead{font-size:clamp(16px,1.4vw,18px);color:var(--muted);max-width:520px}
-.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
-.hero .vid{width:100%;max-width:420px;justify-self:end}
-.facts{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:clamp(24px,5vw,60px);margin-top:44px;padding-top:24px;border-top:1px solid var(--line)}
-.facts b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(30px,3.4vw,44px);line-height:1}
-.facts span{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.hero .eyebrow{justify-content:center}
+.hero h1{font-size:clamp(46px,6.4vw,94px);margin:22px auto 26px;max-width:980px}
+.hero p.lead{font-size:clamp(16px,1.4vw,19px);color:var(--muted);max-width:640px;margin:0 auto}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;justify-content:center}
+.socials{margin-top:38px}
+.socials p{font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.social-row{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.social{display:flex;align-items:center;gap:12px;padding:9px 22px 9px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;text-align:left;transition:border-color .2s,transform .2s}
+.social:hover{border-color:var(--accent-1);transform:translateY(-2px)}
+.social svg{width:36px;height:36px;flex:0 0 36px;padding:8px;border-radius:50%;background:var(--bg-2);fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.social b{display:block;font-weight:500;font-size:14px;line-height:1.25}
+.social span{font-size:12.5px;color:var(--muted)}
+.hero .vid.wide{aspect-ratio:16/9;max-width:1040px;margin:56px auto 0;border-radius:26px}
+.hero .vid.wide img{object-position:center 22%}
 @media(max-width:860px){
-  .hero-grid{grid-template-columns:1fr}
-  .hero .vid{justify-self:center;max-width:360px;order:-1;margin-bottom:10px}
-  .hero{padding-top:96px}
-  .facts{grid-template-columns:repeat(3,1fr);gap:16px}
+  .hero{padding:104px 0 70px}
+  .social-row{flex-direction:column;align-items:center}
+  .social{width:100%;max-width:330px}
+  .hero .vid.wide{margin-top:40px;border-radius:18px}
 }
 
 /* Course sections */
 .course:nth-of-type(even){background:var(--bg-2)}
+.course-head{margin-bottom:clamp(32px,4vw,54px)}
+.course .num{font-family:var(--serif);font-size:clamp(70px,9vw,120px);line-height:.8;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.5;display:block;margin-bottom:10px}
+.course h2{margin:16px 0 10px}
+.course .sub{font-family:var(--serif);font-style:italic;font-size:clamp(22px,2.4vw,30px);color:var(--muted);line-height:1.2}
 .course-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,7vw,110px);align-items:center}
 .course.flip .course-grid{grid-template-columns:1.2fr .8fr}
-.course.flip .vid{order:2}
-.course .vid{width:100%;max-width:400px}
-.course.flip .vid{justify-self:end}
-.course .num{font-family:var(--serif);font-size:clamp(70px,9vw,120px);line-height:.8;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.5;display:block;margin-bottom:10px}
-.course h2{margin:18px 0 22px}
+.course.flip .vid{order:2;justify-self:end}
+.course .vid{width:100%;max-width:380px}
 .course .pitch{font-size:clamp(17px,1.5vw,19px);color:var(--muted);max-width:560px;margin-bottom:28px}
 .course .pitch strong{color:var(--text);font-weight:400}
-.course ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;margin-bottom:30px;font-size:15px;max-width:620px}
+.course ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;margin-bottom:30px;font-size:15px;max-width:640px}
 .course li{display:flex;gap:12px;align-items:flex-start}
 .course li::before{content:"";flex:0 0 6px;height:6px;margin-top:9px;border-radius:50%;background:var(--grad)}
 .course .note{font-size:12.5px;color:var(--muted);max-width:560px;margin-bottom:32px;padding-left:14px;border-left:1px solid var(--line)}
@@ -155,6 +162,30 @@ footer button:hover{color:var(--text)}
 .legal h4{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--text);margin-bottom:10px}
 .legal p{margin-bottom:14px}
 
+/* Kontakt-Chat */
+.chat-fab{position:fixed;right:20px;bottom:20px;z-index:60;display:flex;align-items:center;gap:10px;padding:14px 22px 14px 16px;border:0;border-radius:999px;background:var(--text);color:#fff;cursor:pointer;font:500 13px var(--sans);letter-spacing:.04em;box-shadow:0 16px 40px rgba(13,40,45,.28);transition:transform .2s,background .2s}
+.chat-fab:hover{background:#0b9e90;transform:translateY(-2px)}
+.chat-fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.chat-panel{position:fixed;right:20px;bottom:20px;z-index:61;width:min(380px,calc(100vw - 24px));max-height:calc(100dvh - 40px);overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 80px rgba(13,40,45,.25)}
+.cp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 20px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(18,181,165,.12),rgba(58,155,230,.1))}
+.cp-head b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1}
+.cp-head span{font-size:13px;color:var(--muted)}
+.cp-close{width:34px;height:34px;flex:0 0 34px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:18px;line-height:1}
+.chat-panel form,.cp-done{padding:18px 20px 6px}
+.cp-bubble{background:var(--bg-2);border-radius:16px 16px 16px 5px;padding:11px 14px;font-size:14px;margin-bottom:16px}
+.chat-panel label{display:block;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.chat-panel input,.chat-panel textarea{display:block;width:100%;margin-top:6px;padding:11px 13px;border:1px solid var(--line);border-radius:12px;font:300 16px var(--sans);color:var(--text);letter-spacing:0;text-transform:none;resize:vertical}
+.chat-panel input:focus,.chat-panel textarea:focus{outline:2px solid var(--accent-1);outline-offset:1px;border-color:transparent}
+.chat-panel .hp{position:absolute;left:-9999px;width:1px;height:1px}
+.chat-panel form .btn{width:100%;border:0;cursor:pointer}
+.cp-note{font-size:11.5px;color:var(--muted);margin:10px 0 0}
+.cp-note button{background:none;border:0;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+.cp-err{font-size:13px;color:#c2410c;margin-top:8px;min-height:1em}
+.cp-done b{display:block;font-family:var(--serif);font-weight:400;font-size:28px;margin-bottom:4px}
+.cp-done p{color:var(--muted);font-size:14px}
+.cp-ig{display:block;text-align:center;padding:14px 20px 18px;font-size:13px;font-weight:500;color:#0b9e90}
+@media(max-width:520px){.chat-fab{right:14px;bottom:14px}.chat-panel{right:12px;bottom:12px}}
+
 /* Reveal */
 .rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
 .rv.in{opacity:1;transform:none}
@@ -169,7 +200,7 @@ footer button:hover{color:var(--text)}
     <div class="nav-links">
       <a href="#ambassador">Ambassador</a>
       <a href="#ugc">UGC</a>
-      <a href="#claude">Claude</a>
+      <a href="#ki">KI</a>
       <a href="#community">Community</a>
     </div>
     <a href="#ambassador" class="btn btn-light nav-cta">Kurse ansehen</a>
@@ -177,21 +208,31 @@ footer button:hover{color:var(--text)}
 </nav>
 
 <header class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow rv">Brand Nova · by Sophie Kösslbacher</div>
-      <h1 class="rv">Das ist, was ich <em>eigentlich</em> mache.</h1>
-      <p class="lead rv">Ich bin Sophie. Ich verdiene mein Geld mit Ambassador-Programmen, UGC-Videos für Marken und einem KI-System, das mir das Schneiden und Posten abnimmt. Im Video erkläre ich dir, wie das alles zusammenhängt.</p>
-      <div class="hero-actions rv">
-        <a href="#ambassador" class="btn btn-light">Zu den Kursen</a>
-      </div>
-      <div class="facts rv">
-        <div><b>47.600</b><span>Abos auf YouTube</span></div>
-        <div><b>14</b><span>Konten über ein System</span></div>
-        <div><b>937 K</b><span>Aufrufe auf einem Video</span></div>
+  <div class="wrap">
+    <div class="eyebrow rv">Brand Nova · by Sophie Kösslbacher</div>
+    <h1 class="rv">So verdiene ich mein Geld mit <em>Content.</em></h1>
+    <p class="lead rv">Ich bin Sophie. Ich verdiene mein Geld mit Ambassador-Programmen, UGC-Videos für Marken und einem KI-System, das mir das Schneiden und Posten abnimmt. Im Video erkläre ich dir, wie das alles zusammenhängt.</p>
+    <div class="hero-actions rv">
+      <a href="#ambassador" class="btn btn-light">Zu den Kursen</a>
+    </div>
+    <div class="socials rv">
+      <p>Tippen und folgen</p>
+      <div class="social-row">
+        <a class="social" href="https://www.instagram.com/sophiekoesslbacher/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></svg>
+          <div><b>Instagram</b><span>@sophiekoesslbacher</span></div>
+        </a>
+        <a class="social" href="https://www.tiktok.com/@phiele333" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.5v11a4 4 0 1 1-4-4"/><path d="M14 3.5c.4 2.7 2.3 4.6 5 4.8"/></svg>
+          <div><b>TikTok</b><span>@phiele333</span></div>
+        </a>
+        <a class="social" href="https://www.youtube.com/@phiele333" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.2 9.4v5.2l4.5-2.6z"/></svg>
+          <div><b>YouTube</b><span>@phiele333</span></div>
+        </a>
       </div>
     </div>
-    <div class="vid rv" data-video="intro">
+    <div class="vid wide rv" data-video="intro">
       <img src="assets/img/hero-portrait.jpg" alt="Sophie Kösslbacher">
       <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
       <span class="cap">Wer ich bin · Video ansehen</span>
@@ -200,77 +241,94 @@ footer button:hover{color:var(--text)}
 </header>
 
 <section class="course" id="ambassador">
-  <div class="wrap course-grid">
-    <div class="vid rv" data-video="ambassador">
-      <img src="assets/img/about-2.jpg" alt="Sophie mit ihrem Pudel auf einem Boot">
-      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
-      <span class="cap">Ambassador · Video ansehen</span>
-    </div>
-    <div>
+  <div class="wrap">
+    <div class="course-head">
       <span class="num rv">01</span>
       <div class="eyebrow rv">Kurs</div>
       <h2 class="rv">Ambassador-<em>Programme</em></h2>
-      <p class="pitch rv">Marken und Apps bezahlen Creatorinnen dafür, regelmäßig Videos auf eigenen Konten zu posten. <strong>Pro Programm zahlen die Marken je nach Umfang zwischen 300 und 1.500 € im Monat.</strong> Ich zeige dir, wie du solche Programme findest, reinkommst und dranbleibst.</p>
-      <ul class="rv">
+      <p class="sub rv">Mit kleinen TikTok-Videos Geld verdienen</p>
+    </div>
+    <div class="course-grid">
+      <div class="vid rv" data-video="ambassador">
+        <img src="assets/img/about-2.jpg" alt="Sophie mit ihrem Pudel auf einem Boot">
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+        <span class="cap">Ambassador · Video ansehen</span>
+      </div>
+      <div>
+        <p class="pitch rv">Marken und Apps bezahlen Creatorinnen dafür, regelmäßig kurze Videos auf eigenen Konten zu posten. <strong>Pro Programm zahlen die Marken je nach Umfang zwischen 300 und 1.500 € im Monat.</strong> Ich zeige dir, wie du solche Programme findest, reinkommst und dranbleibst.</p>
+        <ul class="rv">
         <li>Wo du Ambassador-Programme findest</li>
         <li>Bewerbung und erste Kampagne</li>
         <li>Konten richtig aufsetzen</li>
         <li>Jeden Tag Takes drehen, ohne auszubrennen</li>
         <li>Briefing-Regeln, damit du bezahlt wirst</li>
         <li>Mehrere Programme parallel betreuen</li>
-      </ul>
+        </ul>
       <p class="note rv">Wie viel du verdienst, hängt von dir ab: wie viele Programme du annimmst, wie viel du produzierst und welche Marken dich nehmen. Ich verspreche keine Einnahmen.</p>
-      <div class="buy rv"><a class="btn btn-light" data-product="ambassador">Jetzt kaufen</a></div>
+        <div class="buy rv"><a class="btn btn-light" data-product="ambassador">Jetzt kaufen</a></div>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="course flip" id="ugc">
-  <div class="wrap course-grid">
-    <div class="vid rv" data-video="ugc">
-      <img src="assets/video/hero-clip.jpg" alt="Ausschnitt aus einem UGC-Video von Sophie">
-      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
-      <span class="cap">UGC · Video ansehen</span>
-    </div>
-    <div>
+  <div class="wrap">
+    <div class="course-head">
       <span class="num rv">02</span>
       <div class="eyebrow rv">Kurs</div>
       <h2 class="rv">UGC-<em>Videokurs</em></h2>
-      <p class="pitch rv">Vom ersten Portfolio bis zum Folgeauftrag: So bekommst du UGC-Jobs und lieferst Videos, die Marken <strong>wieder buchen</strong>.</p>
-      <ul class="rv">
-        <li>Portfolio, das Marken überzeugt</li>
-        <li>Wo du Jobs findest und dich bewirbst</li>
+      <p class="sub rv">Videos für Marken drehen und dafür bezahlt werden</p>
+    </div>
+    <div class="course-grid">
+      <div class="vid rv" data-video="ugc">
+        <img src="assets/video/hero-clip.jpg" alt="Ausschnitt aus einem UGC-Video von Sophie">
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+        <span class="cap">UGC · Video ansehen</span>
+      </div>
+      <div>
+        <p class="pitch rv">Vom ersten Portfolio bis zum Folgeauftrag: So bekommst du UGC-Jobs und lieferst Videos, die Marken <strong>wieder buchen</strong>.</p>
+        <ul class="rv">
+        <li>Dein Portfolio bauen wir gemeinsam auf</li>
+        <li>Die Apps, über die du Aufträge bekommst</li>
+        <li>Bewerben und Marken überzeugen</li>
         <li>Briefings lesen, Hooks schreiben</li>
         <li>Drehen mit dem Handy, ohne Studio</li>
-        <li>Schneiden wie für Ads</li>
+        <li>Schneiden für Ads</li>
         <li>Preise festlegen und abrechnen</li>
-      </ul>
-      <div class="buy rv"><a class="btn btn-light" data-product="ugc">Jetzt kaufen</a></div>
+        </ul>
+        <div class="buy rv"><a class="btn btn-light" data-product="ugc">Jetzt kaufen</a></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="course" id="claude">
-  <div class="wrap course-grid">
-    <div class="vid rv" data-video="claude">
-      <img src="assets/img/about-1.jpg" alt="Sophie auf einer Terrasse am Meer">
-      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
-      <span class="cap">Claude · Video ansehen</span>
-    </div>
-    <div>
+<section class="course" id="ki">
+  <div class="wrap">
+    <div class="course-head">
       <span class="num rv">03</span>
       <div class="eyebrow rv">Kurs</div>
-      <h2 class="rv">Arbeiten mit <em>Claude</em></h2>
-      <p class="pitch rv">Mein komplettes KI-Setup: Wie ich mit Claude Videos schneide, Konten verknüpfe und <strong>viele Accounts gleichzeitig</strong> bespiele, ohne Programmierkenntnisse.</p>
-      <ul class="rv">
-        <li>Claude einrichten, Schritt für Schritt</li>
-        <li>TikTok, Instagram und YouTube verknüpfen</li>
-        <li>Videos schneiden lassen</li>
-        <li>Untertitel und B-Roll automatisch</li>
-        <li>Voice-over mit deiner eigenen Stimme</li>
-        <li>Posts planen, Websites bauen</li>
-      </ul>
-      <div class="buy rv"><a class="btn btn-light" data-product="claude">Jetzt kaufen</a></div>
+      <h2 class="rv">Arbeiten mit <em>KI</em></h2>
+      <p class="sub rv">Schneiden, posten und planen auf Autopilot</p>
+    </div>
+    <div class="course-grid">
+      <div class="vid rv" data-video="ki">
+        <img src="assets/img/about-1.jpg" alt="Sophie auf einer Terrasse am Meer">
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+        <span class="cap">KI · Video ansehen</span>
+      </div>
+      <div>
+        <p class="pitch rv">Mein komplettes KI-Setup: Wie ich mit KI Videos schneide, Konten verknüpfe und <strong>viele Accounts gleichzeitig</strong> bespiele.</p>
+        <ul class="rv">
+        <li>KI einrichten, Schritt für Schritt</li>
+        <li>TikTok, Instagram und YouTube verknüpfen, damit automatisch gepostet wird</li>
+        <li>Videos schneiden lassen wie vom Profi-Cutter, ohne Cutter-Kosten</li>
+        <li>Untertitel und B-Roll automatisch einfügen</li>
+        <li>Voice-over mit deiner eigenen Stimme: Text schreiben, deine Stimme spricht ihn</li>
+        <li>Eigene Website und UGC-Portfolio bauen</li>
+        <li>Posts planen</li>
+        </ul>
+        <div class="buy rv"><a class="btn btn-light" data-product="ki">Jetzt kaufen</a></div>
+      </div>
     </div>
   </div>
 </section>
@@ -279,18 +337,19 @@ footer button:hover{color:var(--text)}
   <div class="wrap community-grid">
     <div>
       <div class="eyebrow rv">Community</div>
-      <h2 class="rv">Ihr seid <em>nicht allein.</em></h2>
-      <p class="pitch rv">Wer einen Kurs kauft, kommt in die Brand Nova Academy: ein gemeinsamer Chat, in dem ihr euch austauscht, Fragen stellt und euch gegenseitig pusht. Jeden Tag kommt dort eine neue Info von mir dazu.</p>
+      <h2 class="rv">Brand Nova <em>Academy</em></h2>
+      <p class="pitch rv">Eine Community nur für euch: ein gemeinsamer Chat, in dem ihr euch austauscht, Fragen stellt und euch gegenseitig pusht.</p>
+      <p class="pitch rv">Jeden Tag schreibe ich rein, wie mein Tag gerade läuft. Und sobald es etwas Neues gibt, zum Beispiel neue Regeln, neue Marken oder neue Programme, erfahrt ihr es dort zuerst. Dazu kommt jedes Quartal ein Überblick. So seid ihr immer up to date.</p>
       <ul class="rv">
-        <li>Ein Raum für alle, keine Privatnachrichten</li>
-        <li>Nur mit persönlicher Einladung</li>
-        <li>Jeden Tag eine Tagesinfo</li>
-        <li>Am Handy wie eine App nutzbar</li>
+        <li>Exklusiv, nur mit persönlicher Einladung</li>
+        <li>Ein gemeinsamer Chat für alle</li>
+        <li>Jeden Tag ein Update von mir</li>
+        <li>Neue Marken, Regeln und Programme zuerst</li>
       </ul>
       <div class="buy rv"><a class="btn btn-light" href="community.html">Zur Academy</a></div>
     </div>
     <div class="chat-demo rv" aria-hidden="true">
-      <div class="cd-m cd-bot"><span>Brand Nova <i>Tagesinfo</i></span>Tipp des Tages: Dreh jeden Hook dreimal und nimm den letzten Take.</div>
+      <div class="cd-m cd-bot"><span>Brand Nova <i>Tagesinfo</i></span>Mein Tag heute: drei Takes für ein neues Programm gedreht und einen neuen Hook getestet. Heute Abend erzähl ich euch, wie er läuft.</div>
       <div class="cd-m"><span>Lena</span>Wie viele Takes dreht ihr pro Hook?</div>
       <div class="cd-m cd-me">Meistens drei, dann nehm ich den besten.</div>
       <div class="cd-m"><span>Lena</span>Danke, probier ich gleich aus!</div>
@@ -304,8 +363,8 @@ footer button:hover{color:var(--text)}
     <h2 class="rv">Schreib mir <em>einfach.</em></h2>
     <p class="rv">Du weißt nicht, welcher Kurs zu dir passt? Schreib mir kurz, wo du gerade stehst.</p>
     <div class="hero-actions rv">
-      <a href="mailto:phieluxe@gmail.com?subject=Frage%20zu%20den%20Kursen" class="btn btn-light">E-Mail schreiben</a>
-      <a href="https://www.youtube.com/@phiele333" target="_blank" rel="noopener" class="btn btn-ghost">YouTube · phiele333</a>
+      <button type="button" class="btn btn-light" data-chat-open style="border:0;cursor:pointer">Nachricht schreiben</button>
+      <a href="https://ig.me/m/sophiekoesslbacher" target="_blank" rel="noopener" class="btn btn-ghost">Auf Instagram schreiben</a>
     </div>
   </div>
 </section>
@@ -333,25 +392,48 @@ footer button:hover{color:var(--text)}
       <h4>Datenschutz</h4>
       <p>Diese Website setzt keine Cookies, verwendet keine Tracking- oder Analyse-Tools und lädt keine Schriften oder Skripte von fremden Servern. Beim Aufruf verarbeitet der Hosting-Anbieter technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt des Zugriffs) zur Auslieferung der Seite.</p>
       <p>Kauf und Bezahlung laufen über die Plattform Bryght (bryght.social), dort gelten deren Datenschutzbestimmungen.</p>
+      <p>Kontaktformular („Schreib mir“): Wenn du mir über das Formular schreibst, speichere ich deinen Namen, deine E-Mail-Adresse oder deinen Instagram-Namen und deine Nachricht bei Supabase (Supabase Inc.) auf Servern in der EU (Frankfurt), nur um dir zu antworten (Art. 6 Abs. 1 lit. b DSGVO). Die Nachricht lösche ich, wenn sie erledigt ist oder du es verlangst. Der Button „Auf Instagram schreiben“ führt zu Instagram (Meta), dort gelten deren Datenschutzbestimmungen.</p>
       <p>Community: Für den Community-Chat speichern wir deinen Namen, deine E-Mail-Adresse, ein verschlüsseltes Passwort und deine Nachrichten. Gespeichert wird bei Supabase (Supabase Inc.) auf Servern in der EU (Frankfurt). Zweck ist allein der Betrieb der Community (Art. 6 Abs. 1 lit. b DSGVO). Nach dem Anmelden legt die Community-Seite technisch notwendige Anmeldedaten im Browser ab. Wenn du aus der Community austrittst, löschen wir deine Daten auf Anfrage.</p>
       <p> Wenn du mir eine E-Mail schreibst, verarbeite ich deine Angaben ausschließlich zur Bearbeitung deiner Anfrage. Verantwortlich: PHIELUXE MARKETING AGENCY LIMITED, Kontakt siehe Impressum. Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung sowie auf Beschwerde bei einer Datenschutzbehörde.</p>
     </div>
   </div>
 </footer>
 
+<button class="chat-fab" id="chat-fab" data-chat-open aria-label="Nachricht an Sophie schreiben">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v10H9l-5 4z"/></svg><span>Schreib mir</span>
+</button>
+<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Nachricht an Sophie" hidden>
+  <div class="cp-head">
+    <div><b>Schreib mir</b><span>Ich antworte dir per E-Mail oder auf Instagram.</span></div>
+    <button class="cp-close" id="chat-close" aria-label="Schließen">×</button>
+  </div>
+  <form id="chat-form">
+    <div class="cp-bubble">Hi, ich bin Sophie! Was möchtest du wissen? Zum Beispiel, welcher Kurs zu dir passt.</div>
+    <label>Name<input name="name" maxlength="80" autocomplete="name" required></label>
+    <label>E-Mail oder Instagram-Name<input name="contact" maxlength="120" placeholder="du@mail.at oder @deinname" required></label>
+    <label>Nachricht<textarea name="body" rows="4" maxlength="3000" required></textarea></label>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn btn-light" type="submit">Senden</button>
+    <div class="cp-err" id="chat-err"></div>
+    <p class="cp-note">Ich speichere deine Angaben nur, um dir zu antworten. <button type="button" data-legal="datenschutz">Datenschutz</button></p>
+  </form>
+  <div class="cp-done" id="chat-done" hidden><b>Danke!</b><p>Deine Nachricht ist bei mir angekommen. Ich melde mich bei dir.</p></div>
+  <a class="cp-ig" href="https://ig.me/m/sophiekoesslbacher" target="_blank" rel="noopener">Lieber auf Instagram schreiben →</a>
+</div>
+
 <script>
 // Kauf-Links (Bryght) pro Kurs. Leer = Button zeigt „Bald verfügbar“.
 const BUY={
   ambassador:"",
   ugc:"",
-  claude:""
+  ki:""
 };
 // Videos pro Bereich, z. B. "assets/video/intro.mp4". Leer = nur Vorschaubild.
 const VIDEOS={
   intro:"",
   ambassador:"",
   ugc:"",
-  claude:""
+  ki:""
 };
 
 document.querySelectorAll('[data-product]').forEach(a=>{
@@ -390,6 +472,30 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',
 // Reveal on scroll
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// Kontakt-Chat: Nachrichten landen im Postfach der Academy (nur Sophie kann sie lesen)
+const INBOX_URL="https://uezvsrtzqfiztgopudmp.supabase.co/rest/v1/inbox";
+const INBOX_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlenZzcnR6cWZpenRnb3B1ZG1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3MDI5MDMsImV4cCI6MjEwOTI3ODkwM30.F-kv_ovi5xwStKQ7ZsLdsvk23cZkb_XV0eACpNTK0DA";
+const panel=document.getElementById('chat-panel'),fab=document.getElementById('chat-fab');
+const openChat=()=>{panel.hidden=false;fab.hidden=true;panel.querySelector('input[name=name]')?.focus()};
+const closeChat=()=>{panel.hidden=true;fab.hidden=false};
+document.querySelectorAll('[data-chat-open]').forEach(b=>b.addEventListener('click',openChat));
+document.getElementById('chat-close').addEventListener('click',closeChat);
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)closeChat()});
+panel.querySelector('[data-legal]').addEventListener('click',closeChat);
+document.getElementById('chat-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target),btn=e.target.querySelector('button[type=submit]'),err=document.getElementById('chat-err');
+  const done=()=>{e.target.hidden=true;document.getElementById('chat-done').hidden=false};
+  if(f.get('website')){done();return}
+  err.textContent='';btn.disabled=true;
+  try{
+    const r=await fetch(INBOX_URL,{method:'POST',headers:{apikey:INBOX_KEY,Authorization:'Bearer '+INBOX_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},
+      body:JSON.stringify({name:f.get('name').trim(),contact:f.get('contact').trim(),body:f.get('body').trim()})});
+    if(!r.ok)throw new Error(r.status);
+    done();
+  }catch{err.textContent='Das hat leider nicht geklappt. Schreib mir gern auf Instagram.'}
+  btn.disabled=false;
+});
 // Legal panels
 document.querySelectorAll('[data-legal]').forEach(b=>b.addEventListener('click',()=>{
   const p=document.getElementById(b.dataset.legal);

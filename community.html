@@ -64,7 +64,9 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
 .app{height:100%;display:flex;flex-direction:column;max-width:880px;margin:0 auto;background:var(--bg);border-left:1px solid var(--line);border-right:1px solid var(--line)}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;padding-top:max(14px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(12px)}
 .top .who{font-size:12px;color:var(--muted)}
-.top .actions{display:flex;gap:8px}
+.top{flex-wrap:wrap}
+.top .actions{display:flex;gap:8px;flex-wrap:wrap}
+.count{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:var(--accent-dark);color:#fff;font-size:10px;letter-spacing:0;margin-left:2px}
 .list{flex:1;overflow-y:auto;padding:20px 16px 8px;display:flex;flex-direction:column;gap:4px;overscroll-behavior:contain}
 .day{align-self:center;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
 .m{max-width:min(78%,560px);align-self:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:10px 14px 8px;position:relative}
@@ -107,6 +109,14 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
 .mem .st{font-size:12px;color:var(--muted)}
 .mem .st.ban{color:var(--danger)}
 .mem .ops{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.ib{padding:16px 0;border-bottom:1px solid var(--line)}
+.ib.done{opacity:.55}
+.ib-top{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--muted)}
+.ib-top b{color:var(--text);font-weight:500;font-size:14px}
+.ib-contact{font-size:13px;margin:2px 0 8px}
+.ib-contact a{color:var(--accent-dark)}
+.ib-body{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14.5px;background:var(--bg-2);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.ib .ops{display:flex;gap:6px}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;z-index:30;pointer-events:none}
 </style>
 </head>
@@ -169,6 +179,7 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
       <div class="who" id="who"></div>
     </div>
     <div class="actions">
+      <button class="btn btn-ghost btn-sm" id="b-inbox" hidden>Postfach<span class="count" id="inbox-n" hidden></span></button>
       <button class="btn btn-ghost btn-sm" id="b-members" hidden>Mitglieder</button>
       <button class="btn btn-ghost btn-sm" data-logout>Abmelden</button>
     </div>
@@ -191,6 +202,15 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
     </form>
     <div class="newlink" id="newlink" hidden></div>
     <div id="memlist"></div>
+  </div>
+</div>
+
+<!-- Admin: Postfach (Kontaktformular der Website) -->
+<div class="drawer" id="v-inbox" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Postfach</h2><button class="btn btn-ghost btn-sm" id="b-inbox-close">Schließen</button></div>
+    <p class="hint" style="text-align:left;margin:0 0 6px">Nachrichten aus „Schreib mir“ auf der Website. Antworten per E-Mail oder Instagram.</p>
+    <div id="inboxlist"></div>
   </div>
 </div>
 
@@ -243,6 +263,8 @@ async function enter(){
   $('who').textContent='Angemeldet als '+me.name;
   document.body.classList.toggle('is-admin',me.role==='admin');
   $('b-members').hidden=me.role!=='admin';
+  $('b-inbox').hidden=me.role!=='admin';
+  if(me.role==='admin')loadInbox();
   show('v-chat');
   await loadMessages();
   subscribe();
@@ -402,6 +424,43 @@ async function updateMember(id,patch){
   const {error}=await sb.from('members').update(patch).eq('id',id);
   if(error){toast('Hat nicht geklappt.');return false}
   loadMembers();return true;
+}
+
+// Admin: Postfach
+const fullFmt=new Intl.DateTimeFormat('de-AT',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+$('b-inbox').onclick=()=>{$('v-inbox').hidden=false;loadInbox()};
+$('b-inbox-close').onclick=()=>$('v-inbox').hidden=true;
+$('v-inbox').addEventListener('click',e=>{if(e.target.id==='v-inbox')$('v-inbox').hidden=true});
+function contactLink(c){
+  if(/^@?[\w.]+$/.test(c)&&!c.includes('.')||c.startsWith('@'))return 'https://www.instagram.com/'+c.replace(/^@/,'')+'/';
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c))return 'mailto:'+c+'?subject='+encodeURIComponent('Deine Nachricht an Brand Nova');
+  return '';
+}
+async function loadInbox(){
+  const {data,error}=await sb.from('inbox').select('*').order('created_at',{ascending:false});
+  const box=$('inboxlist');box.textContent='';
+  if(error){box.textContent='Postfach konnte nicht geladen werden.';return}
+  const open=data.filter(m=>!m.done).length;
+  $('inbox-n').hidden=!open;$('inbox-n').textContent=open;
+  if(!data.length){box.innerHTML='<p class="hint" style="text-align:left">Noch keine Nachrichten.</p>';return}
+  for(const m of data){
+    const row=document.createElement('div');row.className='ib'+(m.done?' done':'');
+    const top=document.createElement('div');top.className='ib-top';
+    const nm=document.createElement('b');nm.textContent=m.name;
+    const t=document.createElement('span');t.textContent=fullFmt.format(new Date(m.created_at));
+    top.append(nm,t);
+    const c=document.createElement('div');c.className='ib-contact';
+    const href=contactLink(m.contact);
+    if(href){const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener';a.textContent=m.contact;c.append(a)}else c.textContent=m.contact;
+    const body=document.createElement('div');body.className='ib-body';body.textContent=m.body;
+    const ops=document.createElement('div');ops.className='ops';
+    const b1=document.createElement('button');b1.className='btn btn-ghost btn-sm';b1.textContent=m.done?'Wieder offen':'Erledigt';
+    b1.onclick=async()=>{const {error}=await sb.from('inbox').update({done:!m.done}).eq('id',m.id);if(error)toast('Hat nicht geklappt.');loadInbox()};
+    const b2=document.createElement('button');b2.className='btn btn-ghost btn-sm';b2.textContent='Löschen';
+    b2.onclick=async()=>{if(!confirm('Nachricht von '+m.name+' löschen?'))return;const {error}=await sb.from('inbox').delete().eq('id',m.id);if(error)toast('Hat nicht geklappt.');loadInbox()};
+    ops.append(b1,b2);
+    row.append(top,c,body,ops);box.append(row);
+  }
 }
 </script>
 </body>
