@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brand Nova Academy</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ffffff">
+<style>
+@font-face{font-family:"Cormorant";font-weight:300;font-style:normal;font-display:swap;src:url(assets/fonts/cormorant-garamond-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant";font-weight:300;font-style:italic;font-display:swap;src:url(assets/fonts/cormorant-garamond-latin-300-italic.woff2) format("woff2")}
+@font-face{font-family:"Cormorant";font-weight:400;font-style:normal;font-display:swap;src:url(assets/fonts/cormorant-garamond-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:300;font-display:swap;src:url(assets/fonts/inter-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:400;font-display:swap;src:url(assets/fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;font-display:swap;src:url(assets/fonts/inter-latin-500-normal.woff2) format("woff2")}
+
+:root{
+  --bg:#ffffff;
+  --bg-2:#f0faf9;
+  --line:rgba(13,40,45,.12);
+  --text:#0f1719;
+  --muted:rgba(15,23,25,.6);
+  --accent-1:#12b5a5;
+  --accent-2:#3a9be6;
+  --accent-dark:#0b9e90;
+  --mine:#dff5f2;
+  --danger:#c2410c;
+  --grad:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  --grad-text:linear-gradient(90deg,#0b9e90,#2b86d4);
+  --serif:"Cormorant",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg-2);color:var(--text);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button,input,textarea{font:inherit;color:inherit}
+em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-radius:999px;border:0;cursor:pointer;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;background:var(--text);color:#fff;transition:background .2s,transform .2s}
+.btn:hover{background:var(--accent-dark)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn-ghost:hover{background:#fff;border-color:var(--text)}
+.btn-sm{padding:9px 14px;font-size:10.5px}
+[hidden]{display:none!important}
+
+/* Gate (Login, Einladung, Hinweise) */
+.gate{min-height:100%;display:grid;place-items:center;padding:24px 16px;background:radial-gradient(circle at 80% 0%,rgba(18,181,165,.16),transparent 55%),radial-gradient(circle at 0% 100%,rgba(58,155,230,.1),transparent 55%),var(--bg)}
+.panel{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:36px 30px;box-shadow:0 30px 70px rgba(13,70,80,.1)}
+.brand{font-family:var(--serif);font-size:22px;font-weight:400}
+.brand small{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-1);margin-left:8px}
+.panel h1{font-family:var(--serif);font-weight:300;font-size:40px;line-height:1.05;margin:26px 0 12px}
+.panel p{color:var(--muted);margin-bottom:22px}
+.field{display:block;margin-bottom:14px}
+.field span{display:block;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:16px}
+.field input:focus{outline:2px solid var(--accent-1);outline-offset:1px;border-color:transparent}
+.panel .btn{width:100%;margin-top:8px}
+.msg-error{color:var(--danger);font-size:14px;margin-top:14px;min-height:1em}
+.hint{font-size:13px;color:var(--muted);margin-top:20px;text-align:center}
+.back{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:22px;text-decoration:underline;text-underline-offset:3px}
+
+/* Chat */
+.app{height:100%;display:flex;flex-direction:column;max-width:880px;margin:0 auto;background:var(--bg);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;padding-top:max(14px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:rgba(255,255,255,.92);backdrop-filter:blur(12px)}
+.top .who{font-size:12px;color:var(--muted)}
+.top .actions{display:flex;gap:8px}
+.list{flex:1;overflow-y:auto;padding:20px 16px 8px;display:flex;flex-direction:column;gap:4px;overscroll-behavior:contain}
+.day{align-self:center;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.m{max-width:min(78%,560px);align-self:flex-start;background:#fff;border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:10px 14px 8px;position:relative}
+.m.mine{align-self:flex-end;background:var(--mine);border-color:transparent;border-radius:18px 18px 6px 18px}
+.m.bot{max-width:min(92%,640px);background:linear-gradient(135deg,rgba(18,181,165,.1),rgba(58,155,230,.1));border-color:rgba(18,181,165,.35)}
+.m .name{font-size:12px;font-weight:500;margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.m.mine .name{display:none}
+.badge{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;border-radius:99px;background:var(--text);color:#fff}
+.badge.b-bot{background:var(--accent-dark)}
+.m .body{white-space:pre-wrap;overflow-wrap:anywhere}
+.m .body a{color:var(--accent-dark);text-underline-offset:2px}
+.m time{display:block;text-align:right;font-size:10.5px;color:var(--muted);margin-top:2px}
+.m .del{position:absolute;top:-10px;right:-8px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:none;font-size:14px;line-height:1;color:var(--danger)}
+.is-admin .m:hover .del,.is-admin .m:focus-within .del{display:grid;place-items:center}
+@media(hover:none){.is-admin .m .del{display:grid;place-items:center}}
+.empty{margin:auto;text-align:center;color:var(--muted);max-width:320px}
+.empty b{display:block;font-family:var(--serif);font-weight:300;font-size:30px;color:var(--text);margin-bottom:6px}
+.composer{display:flex;gap:10px;align-items:flex-end;padding:12px 14px;padding-bottom:max(12px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff}
+.composer textarea{flex:1;resize:none;max-height:140px;min-height:46px;padding:12px 16px;border:1px solid var(--line);border-radius:22px;background:var(--bg-2);font-size:16px;line-height:1.4}
+.composer textarea:focus{outline:2px solid var(--accent-1);outline-offset:1px;border-color:transparent}
+.send{width:46px;height:46px;border-radius:50%;border:0;background:var(--text);color:#fff;cursor:pointer;display:grid;place-items:center;flex:0 0 46px}
+.send:hover{background:var(--accent-dark)}
+.send svg{width:18px;height:18px;fill:currentColor}
+.send:disabled{opacity:.4}
+.rules{font-size:11.5px;color:var(--muted);text-align:center;padding:6px 16px 0;background:#fff}
+
+/* Admin: Mitglieder */
+.drawer{position:fixed;inset:0;background:rgba(15,23,25,.35);display:flex;justify-content:flex-end;z-index:20}
+.drawer .sheet{width:min(440px,100%);height:100%;background:#fff;overflow-y:auto;padding:22px 22px 40px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.sheet h2{font-family:var(--serif);font-weight:300;font-size:32px}
+.add{display:flex;gap:8px;margin-bottom:10px}
+.add input{flex:1;padding:11px 13px;border:1px solid var(--line);border-radius:12px;font-size:16px;min-width:0}
+.add input:focus{outline:2px solid var(--accent-1);outline-offset:1px;border-color:transparent}
+.newlink{background:var(--bg-2);border-radius:14px;padding:14px;font-size:13px;margin-bottom:16px;word-break:break-all}
+.newlink b{display:block;font-weight:500;margin-bottom:6px}
+.newlink .btn{margin-top:10px}
+.mem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.mem .nm{font-weight:400}
+.mem .st{font-size:12px;color:var(--muted)}
+.mem .st.ban{color:var(--danger)}
+.mem .ops{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;z-index:30;pointer-events:none}
+</style>
+</head>
+<body>
+
+<!-- Nicht verbunden -->
+<div class="gate" id="v-setup" hidden>
+  <div class="panel">
+    <div class="brand">Brand Nova<small>Academy</small></div>
+    <h1>Gleich <em>da.</em></h1>
+    <p>Die Academy wird gerade eingerichtet. Schau bald wieder vorbei.</p>
+    <a class="back" href="index.html">Zur Startseite</a>
+  </div>
+</div>
+
+<!-- Einladung annehmen -->
+<div class="gate" id="v-join" hidden>
+  <form class="panel" id="f-join">
+    <div class="brand">Brand Nova<small>Academy</small></div>
+    <h1>Willkommen in der <em>Academy.</em></h1>
+    <p>Du wurdest eingeladen. Leg einmal deine E-Mail und ein Passwort fest, damit kannst du dich später wieder anmelden.</p>
+    <label class="field"><span>E-Mail</span><input type="email" name="email" autocomplete="email" required></label>
+    <label class="field"><span>Passwort (mind. 8 Zeichen)</span><input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+    <button class="btn" type="submit">Beitreten</button>
+    <div class="msg-error" id="e-join"></div>
+    <p class="hint">Schon dabei? <a href="community.html">Hier anmelden</a></p>
+  </form>
+</div>
+
+<!-- Anmelden -->
+<div class="gate" id="v-login" hidden>
+  <form class="panel" id="f-login">
+    <div class="brand">Brand Nova<small>Academy</small></div>
+    <h1>Schön, dass du <em>da</em> bist.</h1>
+    <p>Melde dich mit der E-Mail und dem Passwort an, die du beim Beitreten festgelegt hast.</p>
+    <label class="field"><span>E-Mail</span><input type="email" name="email" autocomplete="email" required></label>
+    <label class="field"><span>Passwort</span><input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="btn" type="submit">Anmelden</button>
+    <div class="msg-error" id="e-login"></div>
+    <p class="hint">Noch kein Zugang? Den bekommst du mit deinem persönlichen Einladungslink. Passwort vergessen? Schreib an <a href="mailto:phieluxe@gmail.com">phieluxe@gmail.com</a>.</p>
+    <a class="back" href="index.html">Zur Startseite</a>
+  </form>
+</div>
+
+<!-- Kein Zugang -->
+<div class="gate" id="v-denied" hidden>
+  <div class="panel">
+    <div class="brand">Brand Nova<small>Academy</small></div>
+    <h1>Kein <em>Zugang.</em></h1>
+    <p>Für dieses Konto ist die Academy nicht freigeschaltet. Wenn du glaubst, dass das ein Fehler ist, schreib an <a href="mailto:phieluxe@gmail.com">phieluxe@gmail.com</a>.</p>
+    <button class="btn btn-ghost" data-logout>Abmelden</button>
+  </div>
+</div>
+
+<!-- Chat -->
+<div class="app" id="v-chat" hidden>
+  <header class="top">
+    <div>
+      <div class="brand">Brand Nova<small>Academy</small></div>
+      <div class="who" id="who"></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" id="b-members" hidden>Mitglieder</button>
+      <button class="btn btn-ghost btn-sm" data-logout>Abmelden</button>
+    </div>
+  </header>
+  <main class="list" id="list" aria-live="polite"></main>
+  <p class="rules">Hier lesen alle mit. Sei freundlich, teile keine privaten Daten.</p>
+  <form class="composer" id="f-send">
+    <textarea id="t-send" rows="1" maxlength="2000" placeholder="Nachricht an alle …" aria-label="Nachricht"></textarea>
+    <button class="send" type="submit" aria-label="Senden"><svg viewBox="0 0 24 24"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z"/></svg></button>
+  </form>
+</div>
+
+<!-- Admin: Mitglieder verwalten -->
+<div class="drawer" id="v-members" hidden>
+  <div class="sheet">
+    <div class="sheet-head"><h2>Mitglieder</h2><button class="btn btn-ghost btn-sm" id="b-close">Schließen</button></div>
+    <form class="add" id="f-add">
+      <input id="i-name" placeholder="Name der Person" maxlength="40" required>
+      <button class="btn btn-sm" type="submit">Einladen</button>
+    </form>
+    <div class="newlink" id="newlink" hidden></div>
+    <div id="memlist"></div>
+  </div>
+</div>
+
+<script src="assets/js/supabase.js"></script>
+<script>
+// Verbindung zu Supabase. Beide Werte stehen in Supabase unter Project Settings → API.
+// Der "anon public"-Schlüssel ist dafür gedacht, im Browser zu stehen.
+const SUPABASE_URL="https://uezvsrtzqfiztgopudmp.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlenZzcnR6cWZpenRnb3B1ZG1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3MDI5MDMsImV4cCI6MjEwOTI3ODkwM30.F-kv_ovi5xwStKQ7ZsLdsvk23cZkb_XV0eACpNTK0DA";
+
+const $=id=>document.getElementById(id);
+const views=['v-setup','v-join','v-login','v-denied','v-chat'];
+const show=v=>views.forEach(x=>$(x).hidden=x!==v);
+const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.append(d);setTimeout(()=>d.remove(),2200)};
+const ERR={
+  'Invalid login credentials':'E-Mail oder Passwort stimmt nicht.',
+  'User already registered':'Diese E-Mail ist schon registriert.',
+  'Password should be at least 8 characters.':'Das Passwort braucht mindestens 8 Zeichen.'
+};
+const errText=e=>ERR[e?.message]||e?.message||'Da ist etwas schiefgelaufen.';
+
+let sb,me,room,messages=[];
+
+if(!SUPABASE_URL||!SUPABASE_ANON_KEY){show('v-setup')}
+else{
+  sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  boot();
+}
+
+async function boot(){
+  const code=new URLSearchParams(location.search).get('einladung');
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){show(code?'v-join':'v-login');return}
+  if(code){await claim(code);return}
+  await enter();
+}
+
+async function claim(code){
+  const {error}=await sb.rpc('claim_invite',{code});
+  history.replaceState(null,'',location.pathname);
+  if(error){show('v-denied');return}
+  await enter();
+}
+
+async function enter(){
+  const {data:{user}}=await sb.auth.getUser();
+  const {data}=await sb.from('members').select('id,name,role,banned').eq('user_id',user.id).maybeSingle();
+  if(!data||data.banned){show('v-denied');return}
+  me={...data,user_id:user.id};
+  $('who').textContent='Angemeldet als '+me.name;
+  document.body.classList.toggle('is-admin',me.role==='admin');
+  $('b-members').hidden=me.role!=='admin';
+  show('v-chat');
+  await loadMessages();
+  subscribe();
+  $('t-send').focus();
+}
+
+// Formulare: Beitreten und Anmelden
+$('f-join').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target),btn=e.target.querySelector('button');
+  const email=f.get('email').trim(),password=f.get('password');
+  btn.disabled=true;$('e-join').textContent='';
+  let {data,error}=await sb.auth.signUp({email,password});
+  if(error?.message==='User already registered')({data,error}=await sb.auth.signInWithPassword({email,password}));
+  if(!error&&!data.session)error={message:'In Supabase ist „Confirm email“ noch eingeschaltet.'};
+  btn.disabled=false;
+  if(error){$('e-join').textContent=errText(error);return}
+  await claim(new URLSearchParams(location.search).get('einladung'));
+});
+$('f-login').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target),btn=e.target.querySelector('button');
+  btn.disabled=true;$('e-login').textContent='';
+  const {error}=await sb.auth.signInWithPassword({email:f.get('email').trim(),password:f.get('password')});
+  btn.disabled=false;
+  if(error){$('e-login').textContent=errText(error);return}
+  await enter();
+});
+document.querySelectorAll('[data-logout]').forEach(b=>b.addEventListener('click',async()=>{
+  if(room)sb.removeChannel(room);
+  await sb.auth.signOut();location.href='community.html';
+}));
+
+// Nachrichten
+async function loadMessages(){
+  const {data,error}=await sb.from('messages').select('*').order('created_at',{ascending:false}).limit(300);
+  if(error){toast('Nachrichten konnten nicht geladen werden.');return}
+  messages=data.reverse();render(true);
+}
+function subscribe(){
+  room=sb.channel('community')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{
+      if(messages.some(m=>m.id===p.new.id))return;
+      messages.push(p.new);render(nearBottom()||p.new.user_id===me.user_id);
+    })
+    .on('postgres_changes',{event:'DELETE',schema:'public',table:'messages'},p=>{
+      messages=messages.filter(m=>m.id!==p.old.id);render(false);
+    })
+    .subscribe();
+}
+const nearBottom=()=>{const l=$('list');return l.scrollHeight-l.scrollTop-l.clientHeight<120};
+const dayFmt=new Intl.DateTimeFormat('de-AT',{weekday:'long',day:'numeric',month:'long'});
+const timeFmt=new Intl.DateTimeFormat('de-AT',{hour:'2-digit',minute:'2-digit'});
+function dayLabel(d){
+  const t=new Date();t.setHours(0,0,0,0);
+  const x=new Date(d);x.setHours(0,0,0,0);
+  const diff=(t-x)/864e5;
+  return diff===0?'Heute':diff===1?'Gestern':dayFmt.format(d);
+}
+// Text sicher einsetzen, nur Links klickbar machen
+function fillBody(el,text){
+  text.split(/(https?:\/\/[^\s]+)/g).forEach((part,i)=>{
+    if(i%2){const a=document.createElement('a');a.href=part;a.textContent=part;a.target='_blank';a.rel='noopener nofollow';el.append(a)}
+    else el.append(part);
+  });
+}
+function render(scroll){
+  const l=$('list');l.textContent='';
+  if(!messages.length){l.innerHTML='<div class="empty"><b>Noch ganz leise hier.</b>Schreib die erste Nachricht und stell dich kurz vor.</div>';return}
+  let lastDay='';
+  for(const m of messages){
+    const d=new Date(m.created_at),day=d.toDateString();
+    if(day!==lastDay){lastDay=day;const s=document.createElement('div');s.className='day';s.textContent=dayLabel(d);l.append(s)}
+    const el=document.createElement('div');
+    el.className='m'+(m.user_id===me.user_id?' mine':'')+(m.author_role==='bot'?' bot':'');
+    const name=document.createElement('div');name.className='name';name.textContent=m.author_name;
+    if(m.author_role!=='member'){const b=document.createElement('span');b.className='badge'+(m.author_role==='bot'?' b-bot':'');b.textContent=m.author_role==='bot'?'Tagesinfo':'Admin';name.append(b)}
+    const body=document.createElement('div');body.className='body';fillBody(body,m.body);
+    const t=document.createElement('time');t.textContent=timeFmt.format(d);
+    el.append(name,body,t);
+    if(me.role==='admin'){
+      const x=document.createElement('button');x.className='del';x.textContent='×';x.title='Nachricht löschen';x.setAttribute('aria-label','Nachricht löschen');
+      x.onclick=()=>removeMessage(m.id);el.append(x);
+    }
+    l.append(el);
+  }
+  if(scroll)l.scrollTop=l.scrollHeight;
+}
+async function removeMessage(id){
+  if(!confirm('Diese Nachricht für alle löschen?'))return;
+  const {error}=await sb.from('messages').delete().eq('id',id);
+  if(error){toast('Löschen hat nicht geklappt.');return}
+  messages=messages.filter(m=>m.id!==id);render(false);
+}
+const ta=$('t-send');
+const grow=()=>{ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,140)+'px'};
+ta.addEventListener('input',grow);
+ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&matchMedia('(hover:hover)').matches){e.preventDefault();$('f-send').requestSubmit()}});
+$('f-send').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const body=ta.value.trim();if(!body)return;
+  const btn=e.target.querySelector('button');btn.disabled=true;
+  const {data,error}=await sb.from('messages').insert({body,author_name:me.name}).select().single();
+  btn.disabled=false;
+  if(error){toast('Senden hat nicht geklappt.');return}
+  ta.value='';grow();
+  if(!messages.some(m=>m.id===data.id)){messages.push(data);render(true)}
+});
+
+// Admin: Mitglieder verwalten
+const inviteLink=code=>location.origin+location.pathname+'?einladung='+code;
+const newCode=()=>[...crypto.getRandomValues(new Uint8Array(12))].map(b=>b.toString(16).padStart(2,'0')).join('');
+$('b-members').onclick=()=>{$('v-members').hidden=false;$('newlink').hidden=true;loadMembers()};
+$('b-close').onclick=()=>$('v-members').hidden=true;
+$('v-members').addEventListener('click',e=>{if(e.target.id==='v-members')$('v-members').hidden=true});
+function showLink(name,code){
+  const box=$('newlink');box.hidden=false;box.textContent='';
+  const b=document.createElement('b');b.textContent='Einladungslink für '+name;
+  const u=document.createElement('div');u.textContent=inviteLink(code);
+  const c=document.createElement('button');c.className='btn btn-sm';c.textContent='Link kopieren';
+  c.onclick=async()=>{try{await navigator.clipboard.writeText(inviteLink(code));toast('Link kopiert')}catch{toast('Bitte Link markieren und kopieren')}};
+  box.append(b,u,c);
+}
+$('f-add').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('i-name').value.trim();if(!name)return;
+  const {data,error}=await sb.from('members').insert({name}).select().single();
+  if(error){toast('Einladen hat nicht geklappt.');return}
+  $('i-name').value='';showLink(data.name,data.invite_code);loadMembers();
+});
+async function loadMembers(){
+  const {data,error}=await sb.from('members').select('*').order('created_at',{ascending:false});
+  const box=$('memlist');box.textContent='';
+  if(error){box.textContent='Liste konnte nicht geladen werden.';return}
+  for(const m of data){
+    const row=document.createElement('div');row.className='mem';
+    const info=document.createElement('div');
+    const nm=document.createElement('div');nm.className='nm';nm.textContent=m.name+(m.role==='admin'?' · Admin':'');
+    const st=document.createElement('div');st.className='st'+(m.banned?' ban':'');
+    st.textContent=m.banned?'Gesperrt':m.user_id?'Aktiv':'Eingeladen, noch nicht beigetreten';
+    info.append(nm,st);
+    const ops=document.createElement('div');ops.className='ops';
+    const op=(label,fn)=>{const b=document.createElement('button');b.className='btn btn-ghost btn-sm';b.textContent=label;b.onclick=fn;ops.append(b)};
+    if(m.role!=='admin'){
+      if(!m.user_id&&m.invite_code)op('Link',()=>showLink(m.name,m.invite_code));
+      op(m.banned?'Entsperren':'Sperren',()=>updateMember(m.id,{banned:!m.banned}));
+      op('Neuer Link',async()=>{
+        if(!confirm(m.name+' bekommt einen neuen Einladungslink, der alte Zugang endet. Weiter?'))return;
+        const code=newCode();
+        if(await updateMember(m.id,{user_id:null,invite_code:code,banned:false}))showLink(m.name,code);
+      });
+    }
+    row.append(info,ops);box.append(row);
+  }
+}
+async function updateMember(id,patch){
+  const {error}=await sb.from('members').update(patch).eq('id',id);
+  if(error){toast('Hat nicht geklappt.');return false}
+  loadMembers();return true;
+}
+</script>
+</body>
+</html>

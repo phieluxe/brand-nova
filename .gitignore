@@ -1,0 +1,7 @@
+# Bleibt lokal: Einrichtung, Datenbank-Skript, Server-Skripte
+SETUP-COMMUNITY.md
+supabase/
+scripts/
+.DS_Store
+.env
+*.env

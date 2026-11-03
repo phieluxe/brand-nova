@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Nova</title>
+<meta name="description" content="Ambassador-Programme, UGC und Claude: Sophie Kösslbacher zeigt, wie sie als Creatorin arbeitet.">
+<meta property="og:title" content="Brand Nova">
+<meta property="og:description" content="Ambassador-Programme, UGC und Claude: So arbeite ich als Creatorin.">
+<style>
+@font-face{font-family:"Cormorant";font-weight:300;font-style:normal;font-display:swap;src:url(assets/fonts/cormorant-garamond-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant";font-weight:300;font-style:italic;font-display:swap;src:url(assets/fonts/cormorant-garamond-latin-300-italic.woff2) format("woff2")}
+@font-face{font-family:"Cormorant";font-weight:400;font-style:normal;font-display:swap;src:url(assets/fonts/cormorant-garamond-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:300;font-display:swap;src:url(assets/fonts/inter-latin-300-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:400;font-display:swap;src:url(assets/fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;font-display:swap;src:url(assets/fonts/inter-latin-500-normal.woff2) format("woff2")}
+
+:root{
+  --bg:#ffffff;
+  --bg-2:#f0faf9;
+  --line:rgba(13,40,45,.12);
+  --text:#0f1719;
+  --muted:rgba(15,23,25,.62);
+  --accent-1:#12b5a5;
+  --accent-2:#3a9be6;
+  --grad:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+  --grad-text:linear-gradient(90deg,#0b9e90,#2b86d4);
+  --serif:"Cormorant",Georgia,serif;
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --gutter:clamp(16px,5vw,64px);
+  --max:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--grad)}
+h1,h2,h3{font-family:var(--serif);font-weight:300;letter-spacing:-.01em;line-height:1.05}
+h2{font-size:clamp(42px,5.6vw,76px)}
+em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+section{padding:clamp(80px,11vw,140px) 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:17px 30px;border-radius:999px;font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;transition:transform .25s,background .25s,color .25s,border-color .25s}
+.btn-light{background:var(--text);color:#fff}
+.btn-light:hover{transform:translateY(-2px);background:#0b9e90}
+.btn-ghost{border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn.soon{background:transparent;color:var(--muted);border:1px dashed var(--line);cursor:default;transform:none}
+
+/* Nav */
+nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,backdrop-filter .3s}
+nav.solid{background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font-family:var(--serif);font-size:24px;font-weight:400;letter-spacing:.01em}
+.logo small{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-1);margin-left:8px}
+.nav-links{display:flex;gap:34px;font-size:13px;color:var(--muted)}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{padding:11px 20px;font-size:11px}
+@media(max-width:860px){.nav-links{display:none}}
+.logo,.btn{white-space:nowrap}
+@media(max-width:420px){.logo small{display:none}.nav-cta{padding:10px 16px}}
+
+/* Video frame (tap to play with sound) */
+.vid{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;background:var(--bg-2);cursor:pointer;box-shadow:0 30px 70px rgba(13,70,80,.18)}
+.vid img,.vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid video{opacity:0;transition:opacity .3s}
+.vid.playing video{opacity:1}
+.vid::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,30,35,.55),transparent 45%);pointer-events:none;transition:opacity .3s}
+.vid.playing::after{opacity:0}
+.vid .play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;z-index:2;transition:opacity .3s,transform .3s}
+.vid .play svg{width:24px;height:24px;fill:var(--bg);margin-left:4px}
+.vid:hover .play{transform:scale(1.06)}
+.vid.playing .play{opacity:0;transform:scale(.8)}
+.vid .cap{position:absolute;left:18px;right:18px;bottom:16px;z-index:2;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#fff;transition:opacity .3s}
+.vid.playing .cap{opacity:0}
+.vid.empty{cursor:default}
+.vid.empty .play{background:rgba(255,255,255,.3);backdrop-filter:blur(8px)}
+.vid.empty .play svg{fill:#fff}
+
+/* Hero */
+.hero{min-height:100svh;display:flex;align-items:center;padding:110px 0 70px;position:relative;overflow:clip}
+.hero>.wrap{position:relative;z-index:1}
+.hero::before{content:"";position:absolute;width:60vw;height:60vw;max-width:780px;max-height:780px;right:-10vw;top:-10vw;background:radial-gradient(circle,rgba(18,181,165,.16),transparent 65%);pointer-events:none}
+.hero::after{content:"";position:absolute;width:50vw;height:50vw;max-width:640px;max-height:640px;left:-14vw;bottom:-18vw;background:radial-gradient(circle,rgba(58,155,230,.10),transparent 65%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,6vw,90px);align-items:center}
+.hero h1{font-size:clamp(48px,6.4vw,94px);margin:22px 0 26px}
+.hero p.lead{font-size:clamp(16px,1.4vw,18px);color:var(--muted);max-width:520px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.hero .vid{width:100%;max-width:420px;justify-self:end}
+.facts{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:clamp(24px,5vw,60px);margin-top:44px;padding-top:24px;border-top:1px solid var(--line)}
+.facts b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(30px,3.4vw,44px);line-height:1}
+.facts span{font-size:12px;color:var(--muted);letter-spacing:.04em}
+@media(max-width:860px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero .vid{justify-self:center;max-width:360px;order:-1;margin-bottom:10px}
+  .hero{padding-top:96px}
+  .facts{grid-template-columns:repeat(3,1fr);gap:16px}
+}
+
+/* Course sections */
+.course:nth-of-type(even){background:var(--bg-2)}
+.course-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(40px,7vw,110px);align-items:center}
+.course.flip .course-grid{grid-template-columns:1.2fr .8fr}
+.course.flip .vid{order:2}
+.course .vid{width:100%;max-width:400px}
+.course.flip .vid{justify-self:end}
+.course .num{font-family:var(--serif);font-size:clamp(70px,9vw,120px);line-height:.8;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.5;display:block;margin-bottom:10px}
+.course h2{margin:18px 0 22px}
+.course .pitch{font-size:clamp(17px,1.5vw,19px);color:var(--muted);max-width:560px;margin-bottom:28px}
+.course .pitch strong{color:var(--text);font-weight:400}
+.course ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;margin-bottom:30px;font-size:15px;max-width:620px}
+.course li{display:flex;gap:12px;align-items:flex-start}
+.course li::before{content:"";flex:0 0 6px;height:6px;margin-top:9px;border-radius:50%;background:var(--grad)}
+.course .note{font-size:12.5px;color:var(--muted);max-width:560px;margin-bottom:32px;padding-left:14px;border-left:1px solid var(--line)}
+.buy{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+@media(max-width:860px){
+  .course-grid,.course.flip .course-grid{grid-template-columns:1fr}
+  .course .vid,.course.flip .vid{order:0;justify-self:center;max-width:340px}
+  .course ul{grid-template-columns:1fr}
+}
+
+/* Community */
+.community{background:var(--bg-2)}
+.community-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(40px,7vw,110px);align-items:center}
+.community h2{margin:18px 0 22px}
+.community .pitch{font-size:clamp(17px,1.5vw,19px);color:var(--muted);max-width:560px;margin-bottom:28px}
+.community ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;margin-bottom:32px;font-size:15px;max-width:620px}
+.community li{display:flex;gap:12px;align-items:flex-start}
+.community li::before{content:"";flex:0 0 6px;height:6px;margin-top:9px;border-radius:50%;background:var(--grad)}
+.chat-demo{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 30px 70px rgba(13,70,80,.12);max-width:420px;width:100%;justify-self:end}
+.cd-m{align-self:flex-start;max-width:85%;background:var(--bg-2);border-radius:16px 16px 16px 5px;padding:9px 13px;font-size:14px}
+.cd-m span{display:block;font-size:11.5px;font-weight:500;margin-bottom:1px}
+.cd-m i{font-style:normal;font-size:9px;letter-spacing:.14em;text-transform:uppercase;background:#0b9e90;color:#fff;padding:2px 6px;border-radius:99px;margin-left:5px}
+.cd-bot{max-width:100%;background:linear-gradient(135deg,rgba(18,181,165,.12),rgba(58,155,230,.12))}
+.cd-me{align-self:flex-end;background:#dff5f2;border-radius:16px 16px 5px 16px}
+@media(max-width:860px){.community-grid{grid-template-columns:1fr}.community ul{grid-template-columns:1fr}.chat-demo{justify-self:center}}
+
+/* Final CTA */
+.contact{text-align:center;position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(18,181,165,.14),transparent 60%);pointer-events:none}
+.contact .eyebrow{justify-content:center}
+.contact h2{font-size:clamp(46px,8vw,110px);margin:24px auto 28px;max-width:900px}
+.contact p{color:var(--muted);max-width:540px;margin:0 auto 40px}
+.contact .hero-actions{justify-content:center;margin-top:0}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:40px 0 60px;font-size:13px;color:var(--muted)}
+footer .row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+footer button:hover{color:var(--text)}
+.legal{display:none;margin-top:30px;padding-top:30px;border-top:1px solid var(--line);font-size:13px;line-height:1.8;max-width:760px}
+.legal.open{display:block}
+.legal h4{font-family:var(--serif);font-weight:400;font-size:22px;color:var(--text);margin-bottom:10px}
+.legal p{margin-bottom:14px}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">Brand Nova</a>
+    <div class="nav-links">
+      <a href="#ambassador">Ambassador</a>
+      <a href="#ugc">UGC</a>
+      <a href="#claude">Claude</a>
+      <a href="#community">Community</a>
+    </div>
+    <a href="#ambassador" class="btn btn-light nav-cta">Kurse ansehen</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow rv">Brand Nova · by Sophie Kösslbacher</div>
+      <h1 class="rv">Das ist, was ich <em>eigentlich</em> mache.</h1>
+      <p class="lead rv">Ich bin Sophie. Ich verdiene mein Geld mit Ambassador-Programmen, UGC-Videos für Marken und einem KI-System, das mir das Schneiden und Posten abnimmt. Im Video erkläre ich dir, wie das alles zusammenhängt.</p>
+      <div class="hero-actions rv">
+        <a href="#ambassador" class="btn btn-light">Zu den Kursen</a>
+      </div>
+      <div class="facts rv">
+        <div><b>47.600</b><span>Abos auf YouTube</span></div>
+        <div><b>14</b><span>Konten über ein System</span></div>
+        <div><b>937 K</b><span>Aufrufe auf einem Video</span></div>
+      </div>
+    </div>
+    <div class="vid rv" data-video="intro">
+      <img src="assets/img/hero-portrait.jpg" alt="Sophie Kösslbacher">
+      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+      <span class="cap">Wer ich bin · Video ansehen</span>
+    </div>
+  </div>
+</header>
+
+<section class="course" id="ambassador">
+  <div class="wrap course-grid">
+    <div class="vid rv" data-video="ambassador">
+      <img src="assets/img/about-2.jpg" alt="Sophie mit ihrem Pudel auf einem Boot">
+      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+      <span class="cap">Ambassador · Video ansehen</span>
+    </div>
+    <div>
+      <span class="num rv">01</span>
+      <div class="eyebrow rv">Kurs</div>
+      <h2 class="rv">Ambassador-<em>Programme</em></h2>
+      <p class="pitch rv">Marken und Apps bezahlen Creatorinnen dafür, regelmäßig Videos auf eigenen Konten zu posten. <strong>Pro Programm zahlen die Marken je nach Umfang zwischen 300 und 1.500 € im Monat.</strong> Ich zeige dir, wie du solche Programme findest, reinkommst und dranbleibst.</p>
+      <ul class="rv">
+        <li>Wo du Ambassador-Programme findest</li>
+        <li>Bewerbung und erste Kampagne</li>
+        <li>Konten richtig aufsetzen</li>
+        <li>Jeden Tag Takes drehen, ohne auszubrennen</li>
+        <li>Briefing-Regeln, damit du bezahlt wirst</li>
+        <li>Mehrere Programme parallel betreuen</li>
+      </ul>
+      <p class="note rv">Wie viel du verdienst, hängt von dir ab: wie viele Programme du annimmst, wie viel du produzierst und welche Marken dich nehmen. Ich verspreche keine Einnahmen.</p>
+      <div class="buy rv"><a class="btn btn-light" data-product="ambassador">Jetzt kaufen</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="course flip" id="ugc">
+  <div class="wrap course-grid">
+    <div class="vid rv" data-video="ugc">
+      <img src="assets/video/hero-clip.jpg" alt="Ausschnitt aus einem UGC-Video von Sophie">
+      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+      <span class="cap">UGC · Video ansehen</span>
+    </div>
+    <div>
+      <span class="num rv">02</span>
+      <div class="eyebrow rv">Kurs</div>
+      <h2 class="rv">UGC-<em>Videokurs</em></h2>
+      <p class="pitch rv">Vom ersten Portfolio bis zum Folgeauftrag: So bekommst du UGC-Jobs und lieferst Videos, die Marken <strong>wieder buchen</strong>.</p>
+      <ul class="rv">
+        <li>Portfolio, das Marken überzeugt</li>
+        <li>Wo du Jobs findest und dich bewirbst</li>
+        <li>Briefings lesen, Hooks schreiben</li>
+        <li>Drehen mit dem Handy, ohne Studio</li>
+        <li>Schneiden wie für Ads</li>
+        <li>Preise festlegen und abrechnen</li>
+      </ul>
+      <div class="buy rv"><a class="btn btn-light" data-product="ugc">Jetzt kaufen</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="course" id="claude">
+  <div class="wrap course-grid">
+    <div class="vid rv" data-video="claude">
+      <img src="assets/img/about-1.jpg" alt="Sophie auf einer Terrasse am Meer">
+      <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+      <span class="cap">Claude · Video ansehen</span>
+    </div>
+    <div>
+      <span class="num rv">03</span>
+      <div class="eyebrow rv">Kurs</div>
+      <h2 class="rv">Arbeiten mit <em>Claude</em></h2>
+      <p class="pitch rv">Mein komplettes KI-Setup: Wie ich mit Claude Videos schneide, Konten verknüpfe und <strong>viele Accounts gleichzeitig</strong> bespiele, ohne Programmierkenntnisse.</p>
+      <ul class="rv">
+        <li>Claude einrichten, Schritt für Schritt</li>
+        <li>TikTok, Instagram und YouTube verknüpfen</li>
+        <li>Videos schneiden lassen</li>
+        <li>Untertitel und B-Roll automatisch</li>
+        <li>Voice-over mit deiner eigenen Stimme</li>
+        <li>Posts planen, Websites bauen</li>
+      </ul>
+      <div class="buy rv"><a class="btn btn-light" data-product="claude">Jetzt kaufen</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="community" id="community">
+  <div class="wrap community-grid">
+    <div>
+      <div class="eyebrow rv">Community</div>
+      <h2 class="rv">Ihr seid <em>nicht allein.</em></h2>
+      <p class="pitch rv">Wer einen Kurs kauft, kommt in die Brand Nova Academy: ein gemeinsamer Chat, in dem ihr euch austauscht, Fragen stellt und euch gegenseitig pusht. Jeden Tag kommt dort eine neue Info von mir dazu.</p>
+      <ul class="rv">
+        <li>Ein Raum für alle, keine Privatnachrichten</li>
+        <li>Nur mit persönlicher Einladung</li>
+        <li>Jeden Tag eine Tagesinfo</li>
+        <li>Am Handy wie eine App nutzbar</li>
+      </ul>
+      <div class="buy rv"><a class="btn btn-light" href="community.html">Zur Academy</a></div>
+    </div>
+    <div class="chat-demo rv" aria-hidden="true">
+      <div class="cd-m cd-bot"><span>Brand Nova <i>Tagesinfo</i></span>Tipp des Tages: Dreh jeden Hook dreimal und nimm den letzten Take.</div>
+      <div class="cd-m"><span>Lena</span>Wie viele Takes dreht ihr pro Hook?</div>
+      <div class="cd-m cd-me">Meistens drei, dann nehm ich den besten.</div>
+      <div class="cd-m"><span>Lena</span>Danke, probier ich gleich aus!</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <div class="eyebrow rv">Fragen?</div>
+    <h2 class="rv">Schreib mir <em>einfach.</em></h2>
+    <p class="rv">Du weißt nicht, welcher Kurs zu dir passt? Schreib mir kurz, wo du gerade stehst.</p>
+    <div class="hero-actions rv">
+      <a href="mailto:phieluxe@gmail.com?subject=Frage%20zu%20den%20Kursen" class="btn btn-light">E-Mail schreiben</a>
+      <a href="https://www.youtube.com/@phiele333" target="_blank" rel="noopener" class="btn btn-ghost">YouTube · phiele333</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <span>© 2026 Brand Nova</span>
+      <span><button data-legal="impressum">Impressum</button> &nbsp;·&nbsp; <button data-legal="datenschutz">Datenschutz</button></span>
+    </div>
+    <div class="legal" id="impressum">
+      <h4>Impressum</h4>
+      <p>Anbieterin von Brand Nova und der Brand Nova Academy:<br>PHIELUXE MARKETING AGENCY LIMITED<br>
+      Private Company Limited by Shares (Ltd.)<br>
+      Palaion Patron Germanou 11, 8011 Paphos, Zypern<br>
+      Registernummer: HE 485483 · Republik Zypern<br>
+      USt-IdNr.: 60294853K<br>
+      Director &amp; Secretary: Sophie Kösslbacher<br>
+      Tätigkeit: Marketing- und Werbedienstleistungen</p>
+      <p>E-Mail: <a href="mailto:phieluxe@gmail.com">phieluxe@gmail.com</a><br>Telefon: +43 699 17173433</p>
+      <p>Verbraucher haben die Möglichkeit, Beschwerden an die Online-Streitbeilegungsplattform der EU zu richten: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>. Beschwerden können auch direkt an die oben genannte E-Mail-Adresse gerichtet werden.</p>
+      <p>Claude ist eine Marke von Anthropic. Dieses Angebot ist unabhängig und steht in keiner Verbindung zu Anthropic.</p>
+    </div>
+    <div class="legal" id="datenschutz">
+      <h4>Datenschutz</h4>
+      <p>Diese Website setzt keine Cookies, verwendet keine Tracking- oder Analyse-Tools und lädt keine Schriften oder Skripte von fremden Servern. Beim Aufruf verarbeitet der Hosting-Anbieter technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt des Zugriffs) zur Auslieferung der Seite.</p>
+      <p>Kauf und Bezahlung laufen über die Plattform Bryght (bryght.social), dort gelten deren Datenschutzbestimmungen.</p>
+      <p>Community: Für den Community-Chat speichern wir deinen Namen, deine E-Mail-Adresse, ein verschlüsseltes Passwort und deine Nachrichten. Gespeichert wird bei Supabase (Supabase Inc.) auf Servern in der EU (Frankfurt). Zweck ist allein der Betrieb der Community (Art. 6 Abs. 1 lit. b DSGVO). Nach dem Anmelden legt die Community-Seite technisch notwendige Anmeldedaten im Browser ab. Wenn du aus der Community austrittst, löschen wir deine Daten auf Anfrage.</p>
+      <p> Wenn du mir eine E-Mail schreibst, verarbeite ich deine Angaben ausschließlich zur Bearbeitung deiner Anfrage. Verantwortlich: PHIELUXE MARKETING AGENCY LIMITED, Kontakt siehe Impressum. Du hast das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung sowie auf Beschwerde bei einer Datenschutzbehörde.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Kauf-Links (Bryght) pro Kurs. Leer = Button zeigt „Bald verfügbar“.
+const BUY={
+  ambassador:"",
+  ugc:"",
+  claude:""
+};
+// Videos pro Bereich, z. B. "assets/video/intro.mp4". Leer = nur Vorschaubild.
+const VIDEOS={
+  intro:"",
+  ambassador:"",
+  ugc:"",
+  claude:""
+};
+
+document.querySelectorAll('[data-product]').forEach(a=>{
+  const url=BUY[a.dataset.product];
+  if(url){a.href=url;a.target="_blank";a.rel="noopener"}
+  else{a.textContent="Bald verfügbar";a.classList.add('soon');a.setAttribute('aria-disabled','true')}
+});
+// Tap to play with sound, only one video at a time
+const vids=[...document.querySelectorAll('[data-video]')];
+vids.forEach(box=>{
+  const src=VIDEOS[box.dataset.video];
+  if(!src){box.classList.add('empty');box.querySelector('.cap').textContent='Video folgt';return}
+  const v=document.createElement('video');
+  v.src=src;v.playsInline=true;v.preload='none';
+  box.insertBefore(v,box.querySelector('.play'));
+  v.addEventListener('ended',()=>box.classList.remove('playing'));
+  box.addEventListener('click',()=>{
+    if(v.paused){
+      vids.forEach(o=>{const ov=o.querySelector('video');if(ov&&o!==box){ov.pause();o.classList.remove('playing')}});
+      v.play();box.classList.add('playing');
+    }else{v.pause();box.classList.remove('playing')}
+  });
+});
+// Nav background after scrolling
+const nav=document.getElementById('nav');
+const onScroll=()=>nav.classList.toggle('solid',scrollY>40);
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+// In-page links: scroll without adding #section to the address bar
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const id=a.getAttribute('href').slice(1);
+  const el=id==='top'?document.body:document.getElementById(id);
+  if(!el)return;
+  e.preventDefault();
+  if(id==='top')scrollTo({top:0,behavior:'smooth'});else el.scrollIntoView({behavior:'smooth'});
+}));
+// Reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// Legal panels
+document.querySelectorAll('[data-legal]').forEach(b=>b.addEventListener('click',()=>{
+  const p=document.getElementById(b.dataset.legal);
+  document.querySelectorAll('.legal').forEach(l=>{if(l!==p)l.classList.remove('open')});
+  p.classList.toggle('open');
+  if(p.classList.contains('open'))p.scrollIntoView({behavior:'smooth',block:'start'});
+}));
+</script>
+</body>
+</html>
