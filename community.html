@@ -78,6 +78,9 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
 .badge.b-bot{background:var(--accent-dark)}
 .m .body{white-space:pre-wrap;overflow-wrap:anywhere}
 .m .body a{color:var(--accent-dark);text-underline-offset:2px}
+.m .pic{display:block;width:280px;max-width:100%;min-height:140px;border-radius:12px;margin:4px 0 4px;cursor:zoom-in;background:var(--bg-2);object-fit:cover}
+.m .pic[src]{min-height:0}
+.m .body:empty{display:none}
 .m time{display:block;text-align:right;font-size:10.5px;color:var(--muted);margin-top:2px}
 .m .del{position:absolute;top:-10px;right:-8px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:none;font-size:14px;line-height:1;color:var(--danger)}
 .is-admin .m:hover .del,.is-admin .m:focus-within .del{display:grid;place-items:center}
@@ -91,6 +94,14 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
 .send:hover{background:var(--accent-dark)}
 .send svg{width:18px;height:18px;fill:currentColor}
 .send:disabled{opacity:.4}
+.attach{width:46px;height:46px;flex:0 0 46px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center;color:var(--text)}
+.attach:hover{border-color:var(--accent-1);color:var(--accent-dark)}
+.attach svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.preview{display:flex;align-items:center;gap:12px;padding:10px 14px 0;background:#fff;font-size:13px;color:var(--muted)}
+.preview img{height:58px;width:58px;object-fit:cover;border-radius:10px}
+.preview button{margin-left:auto;background:none;border:0;color:var(--danger);font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.lightbox{position:fixed;inset:0;z-index:40;background:rgba(10,15,17,.92);display:grid;place-items:center;padding:16px;cursor:zoom-out}
+.lightbox img{max-width:100%;max-height:100%;border-radius:10px}
 .rules{font-size:11.5px;color:var(--muted);text-align:center;padding:6px 16px 0;background:#fff}
 
 /* Admin: Mitglieder */
@@ -185,8 +196,10 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
     </div>
   </header>
   <main class="list" id="list" aria-live="polite"></main>
-  <p class="rules">Hier lesen alle mit. Sei freundlich, teile keine privaten Daten.</p>
+  <p class="rules">Hier lesen alle mit. Sei freundlich und schwärze auf Screenshots private Daten.</p>
+  <div class="preview" id="preview" hidden><img id="preview-img" alt="Ausgewähltes Bild"><span>Wird mitgesendet</span><button type="button" id="preview-x">Entfernen</button></div>
   <form class="composer" id="f-send">
+    <label class="attach" title="Bild anhängen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="m4.5 17.5 5-5 3.5 3.5 2.5-2.5 4 4"/></svg><input type="file" id="f-img" accept="image/*" aria-label="Bild anhängen" hidden></label>
     <textarea id="t-send" rows="1" maxlength="2000" placeholder="Nachricht an alle …" aria-label="Nachricht"></textarea>
     <button class="send" type="submit" aria-label="Senden"><svg viewBox="0 0 24 24"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z"/></svg></button>
   </form>
@@ -204,6 +217,8 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
     <div id="memlist"></div>
   </div>
 </div>
+
+<div class="lightbox" id="lightbox" hidden><img id="lightbox-img" alt="Bild in voller Größe"></div>
 
 <!-- Admin: Postfach (Kontaktformular der Website) -->
 <div class="drawer" id="v-inbox" hidden>
@@ -342,9 +357,17 @@ function render(scroll){
     el.className='m'+(m.user_id===me.user_id?' mine':'')+(m.author_role==='bot'?' bot':'');
     const name=document.createElement('div');name.className='name';name.textContent=m.author_name;
     if(m.author_role!=='member'){const b=document.createElement('span');b.className='badge'+(m.author_role==='bot'?' b-bot':'');b.textContent=m.author_role==='bot'?'Tagesinfo':'Admin';name.append(b)}
-    const body=document.createElement('div');body.className='body';fillBody(body,m.body);
+    el.append(name);
+    if(m.image_path){
+      const img=document.createElement('img');img.className='pic';img.alt='Bild von '+m.author_name;img.dataset.path=m.image_path;
+      const c=urlCache.get(m.image_path);if(c)img.src=c.url;
+      img.onload=()=>{if(scroll)l.scrollTop=l.scrollHeight};
+      img.onclick=()=>{if(img.src){$('lightbox-img').src=img.src;$('lightbox').hidden=false}};
+      el.append(img);
+    }
+    const body=document.createElement('div');body.className='body';fillBody(body,m.body||'');
     const t=document.createElement('time');t.textContent=timeFmt.format(d);
-    el.append(name,body,t);
+    el.append(body,t);
     if(me.role==='admin'){
       const x=document.createElement('button');x.className='del';x.textContent='×';x.title='Nachricht löschen';x.setAttribute('aria-label','Nachricht löschen');
       x.onclick=()=>removeMessage(m.id);el.append(x);
@@ -352,11 +375,27 @@ function render(scroll){
     l.append(el);
   }
   if(scroll)l.scrollTop=l.scrollHeight;
+  hydrateImages();
 }
+// Bilder liegen privat; angezeigt werden sie über Links, die nach einer Stunde ablaufen
+const urlCache=new Map();
+async function hydrateImages(){
+  const imgs=[...document.querySelectorAll('img.pic')];
+  const now=Date.now();
+  const need=[...new Set(imgs.map(i=>i.dataset.path))].filter(p=>{const c=urlCache.get(p);return !c||now-c.t>50*60e3});
+  if(need.length){
+    const {data}=await sb.storage.from('chat-images').createSignedUrls(need,3600);
+    (data||[]).forEach(d=>{if(d.signedUrl)urlCache.set(d.path,{url:d.signedUrl,t:now})});
+  }
+  imgs.forEach(i=>{const c=urlCache.get(i.dataset.path);if(c&&i.src!==c.url)i.src=c.url});
+}
+$('lightbox').onclick=()=>{$('lightbox').hidden=true};
 async function removeMessage(id){
   if(!confirm('Diese Nachricht für alle löschen?'))return;
+  const msg=messages.find(m=>m.id===id);
   const {error}=await sb.from('messages').delete().eq('id',id);
   if(error){toast('Löschen hat nicht geklappt.');return}
+  if(msg?.image_path)await sb.storage.from('chat-images').remove([msg.image_path]);
   messages=messages.filter(m=>m.id!==id);render(false);
 }
 const ta=$('t-send');
@@ -365,14 +404,39 @@ ta.addEventListener('input',grow);
 ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&matchMedia('(hover:hover)').matches){e.preventDefault();$('f-send').requestSubmit()}});
 $('f-send').addEventListener('submit',async e=>{
   e.preventDefault();
-  const body=ta.value.trim();if(!body)return;
-  const btn=e.target.querySelector('button');btn.disabled=true;
-  const {data,error}=await sb.from('messages').insert({body,author_name:me.name}).select().single();
+  const body=ta.value.trim();if(!body&&!pending)return;
+  const btn=e.target.querySelector('button[type=submit]');btn.disabled=true;
+  let image_path=null;
+  if(pending){
+    image_path=me.user_id+'/'+Date.now()+'-'+Math.random().toString(36).slice(2,8)+'.jpg';
+    const {error:up}=await sb.storage.from('chat-images').upload(image_path,pending,{contentType:'image/jpeg'});
+    if(up){btn.disabled=false;toast('Bild hochladen hat nicht geklappt.');return}
+  }
+  const {data,error}=await sb.from('messages').insert({body,author_name:me.name,image_path}).select().single();
   btn.disabled=false;
   if(error){toast('Senden hat nicht geklappt.');return}
-  ta.value='';grow();
+  ta.value='';grow();clearPending();
   if(!messages.some(m=>m.id===data.id)){messages.push(data);render(true)}
 });
+
+// Bild anhängen: vor dem Hochladen auf max. 1600 px verkleinern
+let pending=null;
+function clearPending(){pending=null;$('preview').hidden=true;URL.revokeObjectURL($('preview-img').src)}
+async function shrink(file){
+  const bmp=await createImageBitmap(file);
+  const k=Math.min(1,1600/Math.max(bmp.width,bmp.height));
+  const c=document.createElement('canvas');c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+  c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);
+  return new Promise(r=>c.toBlob(r,'image/jpeg',.82));
+}
+$('f-img').addEventListener('change',async e=>{
+  const f=e.target.files[0];e.target.value='';
+  if(!f)return;
+  try{pending=await shrink(f);if(!pending)throw 0}
+  catch{toast('Dieses Bild lässt sich nicht öffnen. Probier einen Screenshot oder ein JPG.');return}
+  $('preview-img').src=URL.createObjectURL(pending);$('preview').hidden=false;ta.focus();
+});
+$('preview-x').onclick=clearPending;
 
 // Admin: Mitglieder verwalten
 const inviteLink=code=>location.origin+location.pathname+'?einladung='+code;
