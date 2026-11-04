@@ -385,12 +385,12 @@ footer button:hover{color:var(--text)}
       Director &amp; Secretary: Sophie Kösslbacher<br>
       Tätigkeit: Marketing- und Werbedienstleistungen</p>
       <p>E-Mail: <a href="mailto:phieluxe@gmail.com">phieluxe@gmail.com</a><br>Telefon: +43 699 17173433</p>
-      <p>Verbraucher haben die Möglichkeit, Beschwerden an die Online-Streitbeilegungsplattform der EU zu richten: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>. Beschwerden können auch direkt an die oben genannte E-Mail-Adresse gerichtet werden.</p>
+      <p>Beschwerden kannst du jederzeit direkt an die oben genannte E-Mail-Adresse richten.</p>
       <p>Claude ist eine Marke von Anthropic. Dieses Angebot ist unabhängig und steht in keiner Verbindung zu Anthropic.</p>
     </div>
     <div class="legal" id="datenschutz">
       <h4>Datenschutz</h4>
-      <p>Diese Website setzt keine Cookies, verwendet keine Tracking- oder Analyse-Tools und lädt keine Schriften oder Skripte von fremden Servern. Beim Aufruf verarbeitet der Hosting-Anbieter technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt des Zugriffs) zur Auslieferung der Seite.</p>
+      <p>Diese Website setzt keine Cookies, verwendet keine Tracking- oder Analyse-Tools und lädt keine Schriften oder Skripte von fremden Servern. Die Seite wird über GitHub Pages (GitHub Inc., USA) ausgeliefert. Dabei verarbeitet GitHub technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt des Zugriffs), um die Seite auszuliefern und abzusichern (Art. 6 Abs. 1 lit. f DSGVO). Diese Daten können dabei in die USA übermittelt werden.</p>
       <p>Kauf und Bezahlung laufen über die Plattform Bryght (bryght.social), dort gelten deren Datenschutzbestimmungen.</p>
       <p>Kontaktformular („Schreib mir“): Wenn du mir über das Formular schreibst, speichere ich deinen Namen, deine E-Mail-Adresse oder deinen Instagram-Namen und deine Nachricht bei Supabase (Supabase Inc.) auf Servern in der EU (Frankfurt), nur um dir zu antworten (Art. 6 Abs. 1 lit. b DSGVO). Die Nachricht lösche ich, wenn sie erledigt ist oder du es verlangst. Der Button „Auf Instagram schreiben“ führt zu Instagram (Meta), dort gelten deren Datenschutzbestimmungen.</p>
       <p>Community: Für den Community-Chat speichern wir deinen Namen, deine E-Mail-Adresse, ein verschlüsseltes Passwort, deine Nachrichten und die Bilder, die du teilst. Bilder sind nur für eingeloggte Mitglieder sichtbar. Gespeichert wird bei Supabase (Supabase Inc.) auf Servern in der EU (Frankfurt). Zweck ist allein der Betrieb der Community (Art. 6 Abs. 1 lit. b DSGVO). Nach dem Anmelden legt die Community-Seite technisch notwendige Anmeldedaten im Browser ab. Wenn du aus der Community austrittst, löschen wir deine Daten auf Anfrage.</p>
@@ -503,6 +503,9 @@ document.querySelectorAll('[data-legal]').forEach(b=>b.addEventListener('click',
   p.classList.toggle('open');
   if(p.classList.contains('open'))p.scrollIntoView({behavior:'smooth',block:'start'});
 }));
+// Direktlink index.html#impressum bzw. #datenschutz (z. B. aus der Academy) öffnet den Abschnitt
+const legalHash=document.getElementById(location.hash.slice(1));
+if(legalHash&&legalHash.classList.contains('legal')){legalHash.classList.add('open');legalHash.scrollIntoView({block:'start'})}
 </script>
 </body>
 </html>
