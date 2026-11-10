@@ -202,6 +202,7 @@ footer button:hover{color:var(--text)}
     <div class="nav-links">
       <a href="#ambassador">Ambassador</a>
       <a href="#ugc">UGC</a>
+      <a href="#starter">Starter-Kit</a>
       <a href="#ki">KI</a>
       <a href="#community">Community</a>
     </div>
@@ -304,10 +305,40 @@ footer button:hover{color:var(--text)}
   </div>
 </section>
 
-<section class="course" id="ki">
+<section class="course" id="starter">
   <div class="wrap">
     <div class="course-head">
       <span class="num rv">03</span>
+      <div class="eyebrow rv">Kurs</div>
+      <h2 class="rv">Starter-<em>Kit</em></h2>
+      <p class="sub rv">Dein Einstieg in Ambassador-Programme</p>
+    </div>
+    <div class="course-grid">
+      <div class="vid rv" data-video="starter">
+        <img src="assets/img/starter-kit.jpg" alt="Tablet, Handy und Kopfhörer auf dem Schreibtisch">
+        <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
+        <span class="cap">Starter-Kit · Video ansehen</span>
+      </div>
+      <div>
+        <p class="pitch rv">Du willst erst mal reinschnuppern? Das Starter-Kit ist der <strong>kompakte Einstieg</strong>: ein Guide zum Durcharbeiten und sechs kurze Lektionen. Danach weißt du, wie ein Ambassador-Programm abläuft und wo du dich direkt bewerben kannst.</p>
+        <ul class="rv">
+        <li>TikTok-Sounds richtig nutzen</li>
+        <li>Regelmäßig posten mit WePush</li>
+        <li>So laufen Kooperationen ab</li>
+        <li>Dos und Don'ts, damit du im Programm bleibst</li>
+        <li>Zwei Programme, bei denen du dich direkt bewerben kannst</li>
+        <li>Guide als PDF: der Ablauf eines Ambassador-Programms, vom Aufwärmen bis zur ersten Kampagne</li>
+        </ul>
+        <div class="buy rv"><a class="btn btn-light" data-product="starter">Jetzt kaufen</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="course flip" id="ki">
+  <div class="wrap">
+    <div class="course-head">
+      <span class="num rv">04</span>
       <div class="eyebrow rv">Kurs</div>
       <h2 class="rv">Arbeiten mit <em>KI</em></h2>
       <p class="sub rv">Schneiden, posten und planen auf Autopilot</p>
@@ -432,6 +463,7 @@ footer button:hover{color:var(--text)}
 const BUY={
   ambassador:"",
   ugc:"",
+  starter:"",
   ki:""
 };
 // Videos pro Bereich, z. B. "assets/video/intro.mp4". Leer = nur Vorschaubild.
@@ -439,6 +471,7 @@ const VIDEOS={
   intro:"",
   ambassador:"",
   ugc:"assets/video/ugc-vorschau.mp4",
+  starter:"",
   ki:"assets/video/ki-vorschau.mp4"
 };
 
@@ -483,7 +516,7 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const INBOX_URL="https://uezvsrtzqfiztgopudmp.supabase.co/rest/v1/inbox";
 const INBOX_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlenZzcnR6cWZpenRnb3B1ZG1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3MDI5MDMsImV4cCI6MjEwOTI3ODkwM30.F-kv_ovi5xwStKQ7ZsLdsvk23cZkb_XV0eACpNTK0DA";
 const panel=document.getElementById('chat-panel'),fab=document.getElementById('chat-fab');
-const COURSE={ambassador:"Ambassador-Programme",ugc:"UGC-Videokurs",ki:"Arbeiten mit KI"};
+const COURSE={ambassador:"Ambassador-Programme",ugc:"UGC-Videokurs",starter:"Starter-Kit",ki:"Arbeiten mit KI"};
 const form=document.getElementById('chat-form'),cp=id=>document.getElementById(id);
 const DEFAULT={title:cp('cp-title').textContent,sub:cp('cp-sub').textContent,bubble:cp('cp-bubble').textContent,doneT:cp('cp-done-title').textContent,doneP:cp('cp-done-text').textContent};
 const setMode=course=>{
