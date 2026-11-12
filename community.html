@@ -168,9 +168,36 @@ em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;ba
     <label class="field"><span>Passwort</span><input type="password" name="password" autocomplete="current-password" required></label>
     <button class="btn" type="submit">Anmelden</button>
     <div class="msg-error" id="e-login"></div>
-    <p class="hint">Noch kein Zugang? Den bekommst du mit deinem persönlichen Einladungslink. Passwort vergessen? Schreib an <a href="mailto:info@brandnovaacademy.com">info@brandnovaacademy.com</a>.</p>
+    <p class="hint"><a href="#" id="a-forgot">Passwort vergessen?</a></p>
+    <p class="hint">Noch kein Zugang? Den bekommst du mit deinem persönlichen Einladungslink.</p>
     <a class="back" href="index.html">Zur Startseite</a>
     <a class="back" style="margin-top:8px" href="index.html#impressum">Impressum</a><a class="back" style="margin-top:4px" href="index.html#datenschutz">Datenschutz</a>
+  </form>
+</div>
+
+<!-- Passwort vergessen -->
+<div class="gate" id="v-forgot" hidden>
+  <form class="panel" id="f-forgot">
+    <div class="brand">Brand Nova<small>Academy</small></div>
+    <h1>Passwort <em>vergessen?</em></h1>
+    <p>Gib deine E-Mail ein. Wir schicken dir einen Link, mit dem du ein neues Passwort festlegst.</p>
+    <label class="field"><span>E-Mail</span><input type="email" name="email" autocomplete="email" required></label>
+    <button class="btn" type="submit">Link senden</button>
+    <div class="msg-error" id="e-forgot"></div>
+    <p class="hint" id="ok-forgot" hidden>Wenn es ein Konto mit dieser E-Mail gibt, ist der Link unterwegs. Schau auch im Spam-Ordner nach.</p>
+    <p class="hint"><a href="community.html">Zurück zur Anmeldung</a></p>
+  </form>
+</div>
+
+<!-- Neues Passwort -->
+<div class="gate" id="v-reset" hidden>
+  <form class="panel" id="f-reset">
+    <div class="brand">Brand Nova<small>Academy</small></div>
+    <h1>Neues <em>Passwort.</em></h1>
+    <p>Leg ein neues Passwort fest. Damit meldest du dich ab jetzt an.</p>
+    <label class="field"><span>Neues Passwort (mind. 8 Zeichen)</span><input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+    <button class="btn" type="submit">Passwort speichern</button>
+    <div class="msg-error" id="e-reset"></div>
   </form>
 </div>
 
@@ -239,7 +266,7 @@ const SUPABASE_URL="https://uezvsrtzqfiztgopudmp.supabase.co";
 const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVlenZzcnR6cWZpenRnb3B1ZG1wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3MDI5MDMsImV4cCI6MjEwOTI3ODkwM30.F-kv_ovi5xwStKQ7ZsLdsvk23cZkb_XV0eACpNTK0DA";
 
 const $=id=>document.getElementById(id);
-const views=['v-setup','v-join','v-login','v-denied','v-chat'];
+const views=['v-setup','v-join','v-login','v-forgot','v-reset','v-denied','v-chat'];
 const show=v=>views.forEach(x=>$(x).hidden=x!==v);
 const toast=t=>{const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.append(d);setTimeout(()=>d.remove(),2200)};
 const ERR={
@@ -254,12 +281,22 @@ let sb,me,room,messages=[];
 if(!SUPABASE_URL||!SUPABASE_ANON_KEY){show('v-setup')}
 else{
   sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  sb.auth.onAuthStateChange(ev=>{if(ev==='PASSWORD_RECOVERY')show('v-reset')});
   boot();
 }
 
 async function boot(){
-  const code=new URLSearchParams(location.search).get('einladung');
+  const q=new URLSearchParams(location.search);
+  if(q.get('token_hash')&&q.get('type')==='recovery'){
+    const {error}=await sb.auth.verifyOtp({token_hash:q.get('token_hash'),type:'recovery'});
+    history.replaceState(null,'',location.pathname);
+    if(error){show('v-forgot');$('e-forgot').textContent='Der Link ist abgelaufen oder wurde schon benutzt. Fordere einfach einen neuen an.';return}
+    show('v-reset');return;
+  }
+  const recovery=/type=recovery/.test(location.hash);
+  const code=q.get('einladung');
   const {data:{session}}=await sb.auth.getSession();
+  if(recovery&&session){show('v-reset');return}
   if(!session){show(code?'v-join':'v-login');return}
   if(code){await claim(code);return}
   await enter();
@@ -308,6 +345,31 @@ $('f-login').addEventListener('submit',async e=>{
   const {error}=await sb.auth.signInWithPassword({email:f.get('email').trim(),password:f.get('password')});
   btn.disabled=false;
   if(error){$('e-login').textContent=errText(error);return}
+  await enter();
+});
+$('a-forgot').addEventListener('click',e=>{
+  e.preventDefault();
+  $('f-forgot').email.value=$('f-login').email.value;
+  show('v-forgot');
+});
+$('f-forgot').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('button');
+  btn.disabled=true;$('e-forgot').textContent='';$('ok-forgot').hidden=true;
+  const {error}=await sb.auth.resetPasswordForEmail(e.target.email.value.trim(),{redirectTo:location.origin+location.pathname});
+  btn.disabled=false;
+  if(error){$('e-forgot').textContent=errText(error);return}
+  $('ok-forgot').hidden=false;
+});
+$('f-reset').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=e.target.querySelector('button');
+  btn.disabled=true;$('e-reset').textContent='';
+  const {error}=await sb.auth.updateUser({password:e.target.password.value});
+  btn.disabled=false;
+  if(error){$('e-reset').textContent=errText(error);return}
+  history.replaceState(null,'',location.pathname);
+  toast('Passwort gespeichert.');
   await enter();
 });
 document.querySelectorAll('[data-logout]').forEach(b=>b.addEventListener('click',async()=>{
